@@ -1,0 +1,23 @@
+:root {
+    // Gradient colors
+    --gradient-color-1: hsl(192, 100%, 67%);
+    --gradient-color-2: hsl(280, 87%, 65%);
+
+    // Accent color
+    --accent-color: hsl(220, 98%, 61%);
+
+    // Light theme colors
+    --input-color-light: hsl(0, 0%, 98%);
+    --bg-color-light: hsl(236, 33%, 92%);
+    --main-text-color-light: hsl(235, 19%, 35%);
+    --small-text-color-light: hsl(233, 11%, 84%);
+    --deselected-text-color-light: hsl(236, 9%, 61%);
+
+    // Dark theme colors
+    --bg-color-dark: hsl(235, 21%, 11%);
+    --input-color-dark: hsl(235, 24%, 19%);
+    --main-text-color-dark: hsl(234, 39%, 85%);
+    --small-text-color-dark: hsl(234, 11%, 52%);
+    --text-hover-color-dark: hsl(236, 33%, 92%);
+    --deselected-text-color-dark: hsl(233, 14%, 35%);
+}
