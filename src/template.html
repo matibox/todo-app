@@ -7,6 +7,45 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-    
+    <div class="background"></div>
+    <main class="app">
+        <header class="app__header">
+            <i class="fa-solid fa-sun-bright"></i>
+        </header>
+        <section class="app__new-todo">
+
+        </section>
+        <section class="app__todos">
+            <div class="app__todos-container">
+                <div data-todo class="todo">
+                    <input data-checkbox type="checkbox" class="todo__checkbox">
+                    <p class="todo__text">
+                        Test text for styling
+                    </p>
+                    <button data-remove class="todo__remove">
+                        <i class="fa-solid fa-x"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="app__info">
+                <p data-items-left class="app__items-left">
+                    5 items left
+                </p>
+                <div class="app__status-container">
+                    <a class="app__status app__status--active">All</a>
+                    <a class="app__status">Active</a>
+                    <a class="app__status">Completed</a>
+                </div>
+                <a class="app__clear">Clear Completed</a>
+            </div>
+        </section>
+        <p class="app__dnd-info">
+            Drag and drop to reorder list
+        </p>
+    </main>
+    <footer class="attribution">
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+        Coded by <a href="https://github.com/matibox">Mateusz Hladky</a>.
+    </footer>
 </body>
 </html>

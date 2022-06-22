@@ -18,4 +18,18 @@ a {
 
 body {
     overflow-x: hidden;
+    background-color: var(--bg-color-light);
+
+    &.dark {
+        background-color: var(--bg-color-dark);
+    }
+}
+
+.attribution {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.attribution a {
+    color: hsl(228, 45%, 44%);
 }
