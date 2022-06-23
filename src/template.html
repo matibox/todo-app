@@ -10,10 +10,14 @@
     <div class="background"></div>
     <main class="app">
         <header class="app__header">
-            <i class="fa-solid fa-sun-bright"></i>
+            <h1 class="app__header-logo">
+                Todo
+            </h1>
+            <img data-mode-switch data-moon class="app__header-btn" alt="Switch color modes">
         </header>
-        <section class="app__new-todo">
-
+        <section class="app__new-todo-container">
+            <button class="app__new-todo-insert" data-insert></button>
+            <input type="text" data-new-todo class="app__new-todo" placeholder="Create a new todo...">
         </section>
         <section class="app__todos">
             <div class="app__todos-container">
@@ -22,9 +26,7 @@
                     <p class="todo__text">
                         Test text for styling
                     </p>
-                    <button data-remove class="todo__remove">
-                        <i class="fa-solid fa-x"></i>
-                    </button>
+                    <img data-remove class="todo__remove" alt="Remove todo">
                 </div>
             </div>
             <div class="app__info">
