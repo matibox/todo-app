@@ -1,0 +1,86 @@
+.todo {
+    width: 100%;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    &__input-container {
+        position: relative;
+    }
+
+    &--dark &__checkbox {
+        border-color: var(--deselected-text-color-dark);
+
+        &:not(:checked):hover {
+            background-image: linear-gradient(
+                    var(--input-color-dark),
+                    var(--input-color-dark)
+                ),
+                linear-gradient(
+                    to right bottom,
+                    var(--gradient-color-1),
+                    var(--gradient-color-2)
+                );
+        }
+    }
+
+    &__checkbox {
+        all: unset;
+        display: block;
+        height: 2rem;
+        width: 2rem;
+        border-radius: 50%;
+        border: 1px solid;
+        border-color: var(--deselected-text-color-light);
+        cursor: pointer;
+    }
+
+    &__checkbox:not(:checked):hover {
+        background-image: linear-gradient(
+                var(--input-color-light),
+                var(--input-color-light)
+            ),
+            linear-gradient(
+                to right bottom,
+                var(--gradient-color-1),
+                var(--gradient-color-2)
+            );
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+        border-color: transparent;
+    }
+
+    &__checkbox:checked {
+        background-image: linear-gradient(
+            to right bottom,
+            var(--gradient-color-1),
+            var(--gradient-color-2)
+        );
+        background-origin: border-box;
+        background-clip: border-box;
+        border-color: transparent;
+    }
+
+    &__check {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transform: translate(50%, calc(50% + 0.2rem));
+        cursor: pointer;
+    }
+
+    &__remove {
+        margin-left: auto;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        cursor: pointer;
+    }
+
+    &:hover &__remove {
+        opacity: 1;
+        pointer-events: all;
+    }
+}

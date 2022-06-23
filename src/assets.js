@@ -15,6 +15,7 @@ export default function assets() {
         { assetName: iconMoon, element: 'moon' },
         { assetName: iconSun, element: 'sun' },
         { assetName: iconCross, element: 'remove' },
+        { assetName: iconCheck, element: 'check' },
         { assetName: bgDD, element: 'bg-d-d' },
         { assetName: bgDL, element: 'bg-d-l' },
         { assetName: bgMD, element: 'bg-m-d' },

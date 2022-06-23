@@ -19,10 +19,15 @@
             <button class="app__new-todo-insert" data-insert></button>
             <input type="text" data-new-todo class="app__new-todo" placeholder="Create a new todo...">
         </section>
-        <section class="app__todos">
+        <section class="app__todos" data-todos-section>
             <div class="app__todos-container">
                 <div data-todo class="todo">
-                    <input data-checkbox type="checkbox" class="todo__checkbox">
+                    <div class="todo__input-container">
+                        <label>
+                            <input data-checkbox type="checkbox" class="todo__checkbox">
+                            <img data-check alt="task done" class="todo__check">
+                        </label>
+                    </div>
                     <p class="todo__text">
                         Test text for styling
                     </p>
@@ -33,13 +38,18 @@
                 <p data-items-left class="app__items-left">
                     5 items left
                 </p>
-                <div class="app__status-container">
+                <div class="app__status-container--desktop">
                     <a class="app__status app__status--active">All</a>
                     <a class="app__status">Active</a>
                     <a class="app__status">Completed</a>
                 </div>
                 <a class="app__clear">Clear Completed</a>
             </div>
+        </section>
+        <section class="app__status-container">
+            <a class="app__status app__status--active">All</a>
+            <a class="app__status">Active</a>
+            <a class="app__status">Completed</a>
         </section>
         <p class="app__dnd-info">
             Drag and drop to reorder list

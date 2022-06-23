@@ -7,6 +7,8 @@
 }
 
 .app {
+    --margin: 2.5rem;
+
     // ==== HEADER ====
     &__header {
         width: 100%;
@@ -15,11 +17,7 @@
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        color: var(--main-text-color-light);
-
-        &--dark {
-            color: var(--main-text-color-dark);
-        }
+        color: var(--main-text-color-dark);
     }
 
     &__header-logo {
@@ -37,11 +35,10 @@
 
     // ==== NEW TODO ====
     &__new-todo-container {
-        --margin: 2.5rem;
         width: calc(100% - (2 * var(--margin)));
         margin-inline: var(--margin);
-        background-color: var(--input-color-light);
         padding: 1.5rem;
+        background-color: var(--input-color-light);
         border-radius: 0.5rem;
         display: flex;
         align-items: center;
@@ -59,6 +56,7 @@
         border-radius: 50%;
         border: 1px solid;
         border-color: var(--deselected-text-color-light);
+        cursor: pointer;
 
         &--dark {
             border-color: var(--deselected-text-color-dark);
@@ -68,7 +66,7 @@
     &__new-todo {
         all: unset;
         flex-grow: 1;
-        caret-color: var(--main-text-color-light);
+        caret-color: var(--accent-color);
         color: var(--main-text-color-light);
         font-size: 1.5rem;
 
@@ -78,12 +76,23 @@
         }
 
         &--dark {
-            caret-color: var(--main-text-color-dark);
             color: var(--main-text-color-dark);
 
             &::placeholder {
                 color: var(--small-text-color-dark);
             }
+        }
+    }
+
+    // ==== TODOS SECTION ====
+    &__todos {
+        width: calc(100% - (2 * var(--margin)));
+        margin: var(--margin);
+        background-color: var(--input-color-light);
+        border-radius: 0.5rem;
+
+        &--dark {
+            background-color: var(--input-color-dark);
         }
     }
 }
