@@ -89,14 +89,26 @@
 
     &__remove {
         margin-left: auto;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
         cursor: pointer;
     }
 
-    &:hover &__remove {
-        opacity: 1;
-        pointer-events: all;
+    @media (hover: hover) {
+        &__remove {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        &:hover &__remove {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    @media (hover: none) {
+        &__remove {
+            opacity: 1;
+            pointer-events: all;
+        }
     }
 }
