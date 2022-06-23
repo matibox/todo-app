@@ -4,9 +4,11 @@
     display: flex;
     align-items: center;
     gap: 2rem;
+    border-bottom: 1px solid;
+    border-color: var(--deselected-text-color-light);
 
-    &__input-container {
-        position: relative;
+    &--dark {
+        border-color: var(--deselected-text-color-dark);
     }
 
     &--dark &__checkbox {
@@ -23,6 +25,14 @@
                     var(--gradient-color-2)
                 );
         }
+    }
+
+    &--dark &__text {
+        color: var(--main-text-color-dark);
+    }
+
+    &__input-container {
+        position: relative;
     }
 
     &__checkbox {
@@ -69,6 +79,12 @@
         opacity: 0;
         transform: translate(50%, calc(50% + 0.2rem));
         cursor: pointer;
+    }
+
+    &__text {
+        color: var(--main-text-color-light);
+        font-size: 1.5rem;
+        font-weight: 400;
     }
 
     &__remove {
