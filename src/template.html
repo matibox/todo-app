@@ -7,15 +7,15 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-    <div class="background"></div>
+    <img data-bg-m-d class="background"></img>
     <main class="app">
-        <header class="app__header">
+        <header class="app__header" data-header>
             <h1 class="app__header-logo">
                 Todo
             </h1>
             <img data-mode-switch data-moon class="app__header-btn" alt="Switch color modes">
         </header>
-        <section class="app__new-todo-container">
+        <section class="app__new-todo-container" data-new-todo-container>
             <button class="app__new-todo-insert" data-insert></button>
             <input type="text" data-new-todo class="app__new-todo" placeholder="Create a new todo...">
         </section>
