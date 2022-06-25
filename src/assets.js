@@ -1,3 +1,6 @@
+// Mode Switch
+import modeSwitch from './modeSwitch';
+
 // Backgrounds
 import bgDD from './assets/bg-desktop-dark.jpg';
 import bgDL from './assets/bg-desktop-light.jpg';
@@ -28,6 +31,39 @@ export default function assets() {
                 `[data-${asset.element}]`
             );
             elements.forEach(element => (element.src = asset.assetName));
+        });
+    }
+
+    window.addEventListener('load', bgChangeHandler);
+    window.addEventListener('resize', bgChangeHandler);
+
+    function bgChangeHandler() {
+        const mode = modeSwitch();
+        const attributes = assets.filter(asset => {
+            if (asset.element.startsWith('bg')) return true;
+        });
+        const dataAttributes = [];
+        for (let i = 0; i < attributes.length; i++) {
+            dataAttributes.push(attributes[i].element);
+        }
+
+        changeBg(mode, dataAttributes);
+    }
+
+    function changeBg(mode, dataAttributes) {
+        const background = document.querySelector('[data-background]');
+        const device = window.innerWidth > 750 ? 'd' : 'm';
+        const attribute = `data-bg-${device}-${mode}`;
+
+        removeAttributes(background, dataAttributes);
+        background.setAttribute(attribute, '');
+        setAssetsSource(assets);
+    }
+
+    function removeAttributes(element, attributes) {
+        console.log(attributes);
+        attributes.forEach(attribute => {
+            element.removeAttribute(`data-${attribute}`);
         });
     }
 

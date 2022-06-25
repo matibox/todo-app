@@ -38,8 +38,8 @@ body {
     font-size: 1rem;
     position: absolute;
     bottom: 1rem;
-    left: 0;
-    transform: translateX(25%);
+    left: 50%;
+    transform: translateX(-50%);
     color: var(--deselected-text-color-light);
 
     &--dark {

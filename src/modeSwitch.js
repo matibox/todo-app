@@ -12,6 +12,8 @@ export default function () {
     const dndInfo = document.querySelector('[data-dnd-info]');
     const attribution = document.querySelector('.attribution');
 
+    let mode = 'l';
+
     // Preferred scheme
     if (
         window.matchMedia &&
@@ -29,5 +31,7 @@ export default function () {
         todos.forEach(todo => {
             todo.classList.add('todo--dark');
         });
+        mode = 'd';
+        return mode;
     }
 }

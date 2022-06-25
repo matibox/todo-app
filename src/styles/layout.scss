@@ -8,6 +8,8 @@
 
 .app {
     --margin: 2.5rem;
+    max-width: 50rem;
+    margin: auto;
 
     // ==== HEADER ====
     &__header {
