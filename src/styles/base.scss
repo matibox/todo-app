@@ -28,6 +28,7 @@ body {
     font-family: 'Josefin Sans', sans-serif;
     overflow-x: hidden;
     background-color: var(--bg-color-light);
+    transition: background-color 0.2s ease;
 
     &.dark {
         background-color: var(--bg-color-dark);

@@ -1,13 +1,13 @@
 // Styles
 import './styles/main.scss';
 
-// Assets
-import assets from './assets';
-assets();
-
 // ==== Mode Switch ====
 import modeSwitch from './modeSwitch';
 modeSwitch();
+
+// Assets
+import assets from './assets';
+assets();
 
 // ==== Checkboxes ====
 const checkboxes = document.querySelectorAll('[data-checkbox]');

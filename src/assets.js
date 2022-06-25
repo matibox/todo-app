@@ -1,6 +1,3 @@
-// Mode Switch
-import modeSwitch from './modeSwitch';
-
 // Backgrounds
 import bgDD from './assets/bg-desktop-dark.jpg';
 import bgDL from './assets/bg-desktop-light.jpg';
@@ -34,11 +31,19 @@ export default function assets() {
         });
     }
 
+    const modeSwitchBtn = document.querySelector('[data-mode-switch]');
+
+    // Background change
     window.addEventListener('load', bgChangeHandler);
     window.addEventListener('resize', bgChangeHandler);
+    modeSwitchBtn.addEventListener('click', bgChangeHandler);
+
+    // Icon change
+    window.addEventListener('load', iconChangeHandler);
+    modeSwitchBtn.addEventListener('click', iconChangeHandler);
 
     function bgChangeHandler() {
-        const mode = modeSwitch();
+        let theme = localStorage.getItem('theme') || 'l';
         const attributes = assets.filter(asset => {
             if (asset.element.startsWith('bg')) return true;
         });
@@ -47,7 +52,21 @@ export default function assets() {
             dataAttributes.push(attributes[i].element);
         }
 
-        changeBg(mode, dataAttributes);
+        changeBg(theme, dataAttributes);
+    }
+
+    function iconChangeHandler() {
+        let theme = localStorage.getItem('theme') || 'l';
+        const attributes = assets.filter(asset => {
+            if (asset.element === 'sun' || asset.element === 'moon')
+                return true;
+        });
+        const dataAttributes = [];
+        for (let i = 0; i < attributes.length; i++) {
+            dataAttributes.push(attributes[i].element);
+        }
+
+        changeIcon(theme, dataAttributes);
     }
 
     function changeBg(mode, dataAttributes) {
@@ -60,8 +79,15 @@ export default function assets() {
         setAssetsSource(assets);
     }
 
+    function changeIcon(mode, dataAttributes) {
+        const icon = mode === 'l' ? 'moon' : 'sun';
+        const attribute = `data-${icon}`;
+        removeAttributes(modeSwitchBtn, dataAttributes);
+        modeSwitchBtn.setAttribute(attribute, '');
+        setAssetsSource(assets);
+    }
+
     function removeAttributes(element, attributes) {
-        console.log(attributes);
         attributes.forEach(attribute => {
             element.removeAttribute(`data-${attribute}`);
         });
