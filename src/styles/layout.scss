@@ -2,8 +2,10 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
     z-index: -1;
+    width: 100vw;
+    max-height: 30rem;
+    object-fit: cover;
 }
 
 .app {
@@ -172,7 +174,7 @@
     // ==== DND INFO ====
     &__dnd-info {
         text-align: center;
-        margin-top: 4rem;
+        margin-top: 8rem;
         font-size: 1.5rem;
         color: var(--deselected-text-color-light);
 
