@@ -9,9 +9,11 @@ modeSwitch();
 import assets from './assets';
 assets();
 
-// App logic
-import app from './app';
-app();
-
+// Checkboxes
 import checkboxes from './checkboxes';
 checkboxes();
+
+// App logic
+import App from './App';
+
+const app = new App();

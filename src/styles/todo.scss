@@ -29,6 +29,10 @@
 
     &--dark &__text {
         color: var(--main-text-color-dark);
+
+        &--completed {
+            color: var(--deselected-text-color-dark);
+        }
     }
 
     &__input-container {
@@ -85,6 +89,11 @@
         color: var(--main-text-color-light);
         font-size: 1.5rem;
         font-weight: 400;
+
+        &--completed {
+            text-decoration: line-through;
+            color: var(--deselected-text-color-light);
+        }
     }
 
     &__remove {
