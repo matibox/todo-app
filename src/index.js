@@ -9,6 +9,10 @@ modeSwitch();
 import assets from './assets';
 assets();
 
+// App logic
+import app from './app';
+app();
+
 // ==== Checkboxes ====
 const checkboxes = document.querySelectorAll('[data-checkbox]');
 const checks = document.querySelectorAll('[data-check]');
