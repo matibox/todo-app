@@ -12,9 +12,7 @@
     }
 
     &--dark &__checkbox {
-        border-color: var(--deselected-text-color-dark);
-
-        &:not(:checked):hover {
+        &:not(.todo__checkbox--checked):hover {
             background-image: linear-gradient(
                     var(--input-color-dark),
                     var(--input-color-dark)
@@ -48,9 +46,20 @@
         border: 1px solid;
         border-color: var(--deselected-text-color-light);
         cursor: pointer;
+
+        &--checked {
+            background-image: linear-gradient(
+                to right bottom,
+                var(--gradient-color-1),
+                var(--gradient-color-2)
+            );
+            background-origin: border-box;
+            background-clip: border-box;
+            border-color: transparent;
+        }
     }
 
-    &__checkbox:not(:checked):hover {
+    &__checkbox:not(.todo__checkbox--checked):hover {
         background-image: linear-gradient(
                 var(--input-color-light),
                 var(--input-color-light)
@@ -65,17 +74,6 @@
         border-color: transparent;
     }
 
-    &__checkbox:checked {
-        background-image: linear-gradient(
-            to right bottom,
-            var(--gradient-color-1),
-            var(--gradient-color-2)
-        );
-        background-origin: border-box;
-        background-clip: border-box;
-        border-color: transparent;
-    }
-
     &__check {
         position: absolute;
         top: 0;
@@ -83,6 +81,7 @@
         opacity: 0;
         transform: translate(50%, calc(50% + 0.2rem));
         cursor: pointer;
+        user-select: none;
     }
 
     &__text {
