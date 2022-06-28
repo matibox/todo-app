@@ -35,11 +35,19 @@ export default function app() {
         }
 
         handleClick() {
+            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            for (let i = 0; i < todos.length; i++) {
+                if (todos[i].text === newTodo.value) return;
+            }
             if (newTodo.value === '') return;
             this.addTodo(newTodo.value);
         }
 
         handleEnterPress(e) {
+            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            for (let i = 0; i < todos.length; i++) {
+                if (todos[i].text === newTodo.value) return;
+            }
             if (e.key !== 'Enter' || newTodo.value === '') return;
             this.addTodo(newTodo.value);
         }
@@ -59,12 +67,6 @@ export default function app() {
         }
 
         appendTodo() {
-            let todos = JSON.parse(localStorage.getItem('todos')) || [];
-
-            for (let i = 0; i < todos.length; i++) {
-                if (todos[i].text === newTodo.value) return;
-            }
-
             if (this.addToStorage) {
                 localStorage.setItem(
                     'todos',
@@ -113,9 +115,9 @@ export default function app() {
         toggleTodo(e) {
             let todos = JSON.parse(localStorage.getItem('todos')) || [];
             const checkbox = e.target;
+            const check = checkbox.nextSibling.nextSibling;
             const todoTextElement =
                 checkbox.parentElement.parentElement.nextSibling.nextSibling;
-            const todoCheck = checkbox.nextSibling.nextSibling;
             const index = todos.findIndex(
                 x => x.text === todoTextElement.innerText
             );
@@ -125,6 +127,13 @@ export default function app() {
 
             todoTextElement.classList.toggle('todo__text--completed');
 
+            checkbox.classList.toggle('todo__checkbox--checked');
+            check.style.opacity = checkbox.classList.contains(
+                'todo__checkbox--checked'
+            )
+                ? '1'
+                : '0';
+
             localStorage.setItem('todos', JSON.stringify([...todos]));
         }
 
@@ -132,7 +141,7 @@ export default function app() {
             newTodo.value = '';
             modeSwitch();
             assets();
-            checkboxes();
+            // checkboxes();
         }
     }
 
