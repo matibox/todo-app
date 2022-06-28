@@ -14,8 +14,5 @@ import checkboxes from './checkboxes';
 checkboxes();
 
 // App logic
-/*
-import App from './App';
-
-const app = new App();
-*/
+import app from './app';
+app();

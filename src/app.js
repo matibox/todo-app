@@ -1,8 +1,8 @@
-/*import modeSwitch from './modeSwitch';
+import modeSwitch from './modeSwitch';
 import assets from './assets';
 import checkboxes from './checkboxes';
 
-export default function () {
+export default function app() {
     const newTodo = document.querySelector('[data-new-todo]');
     const addTodo = document.querySelector('[data-insert]');
     const todosContainer = document.querySelector('[data-todo-container]');
@@ -14,6 +14,8 @@ export default function () {
     class App {
         load() {
             this.todos = JSON.parse(localStorage.getItem('todos')) || [];
+            this.texts = document.querySelectorAll('.todo__text');
+
             this.todos.forEach(todoElement => {
                 const todo = new Todo(
                     todoElement.text,
@@ -21,6 +23,14 @@ export default function () {
                     todoElement.active
                 );
                 todo.appendTodo();
+
+                this.texts.forEach(text => {
+                    if (todo.active) {
+                        text.classList.remove('todo__text--completed');
+                    } else {
+                        text.classList.add('todo__text--completed');
+                    }
+                });
             });
         }
 
@@ -68,11 +78,17 @@ export default function () {
             const todoElementBody = `
                 <div class="todo__input-container">
                     <label>
-                        <input data-checkbox type="checkbox" class="todo__checkbox">
-                        <img data-check alt="task done" class="todo__check">
+                        <button data-checkbox class="todo__checkbox ${
+                            this.active ? '' : 'todo__checkbox--checked'
+                        }"></button>
+                        <img data-check alt="task done" class="todo__check" style="opacity: ${
+                            this.active ? '0' : '1'
+                        }">
                     </label>
                 </div>
-                <p class="todo__text">
+                <p class="todo__text ${
+                    this.active ? '' : 'todo__text--completed'
+                }">
                     ${this.text}
                 </p>
                 <img data-remove class="todo__remove" alt="Remove todo">
@@ -83,7 +99,32 @@ export default function () {
 
             todoElement.innerHTML = todoElementBody;
             todosContainer.appendChild(todoElement);
+
+            const checkbox = todoElement.querySelector('[data-checkbox]');
+
+            checkbox.removeEventListener('click', window.checkboxHandler);
+            window.checkboxHandler = this.toggleTodo;
+            checkbox.addEventListener('click', window.checkboxHandler);
+
             this.reset();
+        }
+
+        toggleTodo(e) {
+            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            const checkbox = e.target;
+            const todoTextElement =
+                checkbox.parentElement.parentElement.nextSibling.nextSibling;
+            const todoCheck = checkbox.nextSibling.nextSibling;
+            const index = todos.findIndex(
+                x => x.text === todoTextElement.innerText
+            );
+
+            todos[index].active = !todos[index].active;
+            this.active = todos[index].active;
+
+            todoTextElement.classList.toggle('todo__text--completed');
+
+            localStorage.setItem('todos', JSON.stringify([...todos]));
         }
 
         reset() {
@@ -99,4 +140,3 @@ export default function () {
     addTodo.addEventListener('click', app.handleClick.bind(app));
     window.addEventListener('keyup', app.handleEnterPress.bind(app));
 }
-*/

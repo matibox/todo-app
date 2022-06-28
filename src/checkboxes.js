@@ -13,5 +13,6 @@ export default function () {
         };
 
         checkbox.addEventListener('click', toggleCheckboxes);
+        window.addEventListener('load', toggleCheckboxes);
     });
 }
