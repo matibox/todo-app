@@ -60,9 +60,10 @@ export default function app() {
 
         appendTodo() {
             let todos = JSON.parse(localStorage.getItem('todos')) || [];
-            todos.forEach(todo => {
-                if (todo.text === newTodo.value) return;
-            });
+
+            for (let i = 0; i < todos.length; i++) {
+                if (todos[i].text === newTodo.value) return;
+            }
 
             if (this.addToStorage) {
                 localStorage.setItem(
