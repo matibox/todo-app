@@ -46,7 +46,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Mateusz Hladky',
+            title: 'Todo App',
             filename: 'index.html',
             template: 'src/template.html',
             favicon: 'src/assets/favicon-32x32.png',
