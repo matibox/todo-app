@@ -11,6 +11,9 @@ export default function app() {
     const filterCompleted = document.querySelector('[data-filter-completed]');
     const itemsLeft = document.querySelector('[data-items-left]');
 
+    const getTodos = () => JSON.parse(localStorage.getItem('todos')) || [];
+    const getStatus = () => localStorage.getItem('status');
+
     class App {
         constructor() {
             clearCompleted.addEventListener('click', this.clearAllTodos);
@@ -21,12 +24,12 @@ export default function app() {
                 'status',
                 localStorage.getItem('status') || 'all'
             );
-            let status = localStorage.getItem('status');
+            let status = getStatus();
             this.setTogglers(document.querySelector(`[data-filter-${status}]`));
         }
 
         load() {
-            this.todos = JSON.parse(localStorage.getItem('todos')) || [];
+            this.todos = getTodos();
             this.texts = document.querySelectorAll('.todo__text');
 
             this.todos.forEach(todoElement => {
@@ -50,7 +53,7 @@ export default function app() {
         }
 
         handleClick() {
-            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            let todos = getTodos();
             for (let i = 0; i < todos.length; i++) {
                 if (todos[i].text === newTodo.value) return;
             }
@@ -59,7 +62,7 @@ export default function app() {
         }
 
         handleEnterPress(e) {
-            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            let todos = getTodos();
             for (let i = 0; i < todos.length; i++) {
                 if (todos[i].text === newTodo.value) return;
             }
@@ -174,7 +177,7 @@ export default function app() {
         }
 
         appendTodo() {
-            let currentStatus = localStorage.getItem('status');
+            let currentStatus = getStatus();
 
             if (this.addToStorage) {
                 localStorage.setItem(
@@ -235,7 +238,7 @@ export default function app() {
         }
 
         toggleTodo(e) {
-            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            let todos = getTodos();
             const checkbox = e.target;
             const check = checkbox.nextSibling.nextSibling;
             const todoTextElement =
@@ -261,7 +264,7 @@ export default function app() {
         }
 
         removeTodo(e) {
-            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            let todos = getTodos();
             const remove = e.target;
             const todoTextElement = remove.parentElement;
             const index = todos.findIndex(
