@@ -14,6 +14,15 @@ export default function app() {
     class App {
         constructor() {
             clearCompleted.addEventListener('click', this.clearAllTodos);
+            filterAll.addEventListener('click', this.filterAll);
+            filterActive.addEventListener('click', this.filterActive);
+            filterCompleted.addEventListener('click', this.filterCompleted);
+            localStorage.setItem(
+                'status',
+                localStorage.getItem('status') || 'all'
+            );
+            let status = localStorage.getItem('status');
+            this.setTogglers(document.querySelector(`[data-filter-${status}]`));
         }
 
         load() {
@@ -77,6 +86,74 @@ export default function app() {
             todos = todos.filter(todo => !completedTodos.includes(todo));
             localStorage.setItem('todos', JSON.stringify([...todos]) || '[]');
         }
+
+        setTogglers(activeToggler) {
+            const statusTogglers = document.querySelectorAll('.app__status');
+            statusTogglers.forEach(toggler => {
+                toggler.classList.remove('app__status--active');
+            });
+
+            activeToggler.classList.add('app__status--active');
+        }
+
+        setStatus(status) {
+            localStorage.setItem('status', status);
+        }
+
+        filterAll() {
+            const elementTodos = document.querySelectorAll('[data-todo]');
+            elementTodos.forEach(todo => {
+                todo.classList.add('todo--active');
+            });
+            app.setTogglers(this);
+            app.setStatus('all');
+        }
+
+        filterActive() {
+            const elementTodos = document.querySelectorAll('[data-todo]');
+
+            const inactiveTodos = [...elementTodos].filter(todo => {
+                const checkbox = todo.querySelector('[data-checkbox]');
+                return checkbox.classList.contains('todo__checkbox--checked');
+            });
+            const activeTodos = [...elementTodos].filter(
+                todo => !inactiveTodos.includes(todo)
+            );
+
+            activeTodos.forEach(todo => {
+                todo.classList.add('todo--active');
+            });
+
+            inactiveTodos.forEach(todo => {
+                todo.classList.remove('todo--active');
+            });
+
+            app.setTogglers(this);
+            app.setStatus('active');
+        }
+
+        filterCompleted() {
+            const elementTodos = document.querySelectorAll('[data-todo]');
+
+            const inactiveTodos = [...elementTodos].filter(todo => {
+                const checkbox = todo.querySelector('[data-checkbox]');
+                return checkbox.classList.contains('todo__checkbox--checked');
+            });
+            const activeTodos = [...elementTodos].filter(
+                todo => !inactiveTodos.includes(todo)
+            );
+
+            activeTodos.forEach(todo => {
+                todo.classList.remove('todo--active');
+            });
+
+            inactiveTodos.forEach(todo => {
+                todo.classList.add('todo--active');
+            });
+
+            app.setTogglers(this);
+            app.setStatus('completed');
+        }
     }
 
     class Todo {
@@ -87,6 +164,8 @@ export default function app() {
         }
 
         appendTodo() {
+            let currentStatus = localStorage.getItem('status');
+            console.log(currentStatus);
             if (this.addToStorage) {
                 localStorage.setItem(
                     'todos',
@@ -119,6 +198,14 @@ export default function app() {
 
             todoElement.setAttribute('data-todo', '');
             todoElement.classList.add('todo');
+
+            if (
+                currentStatus === 'all' ||
+                (currentStatus === 'active' && this.active) ||
+                (currentStatus === 'completed' && !this.active)
+            ) {
+                todoElement.classList.add('todo--active');
+            }
 
             todoElement.innerHTML = todoElementBody;
             todosContainer.appendChild(todoElement);

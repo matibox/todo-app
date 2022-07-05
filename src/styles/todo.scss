@@ -1,11 +1,15 @@
 .todo {
     width: 100%;
     padding: 1.5rem;
-    display: flex;
+    display: none;
     align-items: center;
     gap: 2rem;
     border-bottom: 1px solid;
     border-color: var(--deselected-text-color-light);
+
+    &--active {
+        display: flex;
+    }
 
     &--dark {
         border-color: var(--deselected-text-color-dark);
