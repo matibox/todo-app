@@ -12,6 +12,10 @@ export default function app() {
     const filterCompleted = document.querySelector('[data-filter-completed]');
 
     class App {
+        constructor() {
+            clearCompleted.addEventListener('click', this.clearAllTodos);
+        }
+
         load() {
             this.todos = JSON.parse(localStorage.getItem('todos')) || [];
             this.texts = document.querySelectorAll('.todo__text');
@@ -56,6 +60,22 @@ export default function app() {
             const todo = new Todo(text, true);
             this.todos.push(todo);
             todo.appendTodo();
+        }
+
+        clearAllTodos() {
+            let todos = JSON.parse(localStorage.getItem('todos') || []);
+            const completedTodos = todos.filter(todo => !todo.active);
+
+            const elementTodos = document.querySelectorAll('[data-todo]');
+            const completedElementTodos = [...elementTodos].filter(todo => {
+                const checkbox = todo.querySelector('[data-checkbox]');
+                return checkbox.classList.contains('todo__checkbox--checked');
+            });
+
+            completedElementTodos.forEach(todo => todo.remove());
+
+            todos = todos.filter(todo => !completedTodos.includes(todo));
+            localStorage.setItem('todos', JSON.stringify([...todos]) || '[]');
         }
     }
 
