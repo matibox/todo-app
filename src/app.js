@@ -163,7 +163,7 @@ export default function app() {
         }
 
         updateCounter() {
-            let todos = JSON.parse(localStorage.getItem('todos') || []);
+            let todos = JSON.parse(localStorage.getItem('todos')) || [];
             const activeTodos = todos.filter(todo => todo.active);
             itemsLeft.innerText = activeTodos.length;
         }
@@ -179,16 +179,6 @@ export default function app() {
         appendTodo() {
             let currentStatus = getStatus();
 
-            if (this.addToStorage) {
-                localStorage.setItem(
-                    'todos',
-                    JSON.stringify([
-                        ...JSON.parse(localStorage.getItem('todos') || '[]'),
-                        { text: this.text, active: this.active },
-                    ])
-                );
-            }
-
             const todoElement = document.createElement('div');
             const todoElementBody = `
                 <div class="todo__input-container">
@@ -203,9 +193,7 @@ export default function app() {
                 </div>
                 <p class="todo__text ${
                     this.active ? '' : 'todo__text--completed'
-                }">
-                    ${this.text}
-                </p>
+                }"></p>
                 <img data-remove class="todo__remove" alt="Remove todo">
             `;
 
@@ -223,6 +211,22 @@ export default function app() {
             todoElement.innerHTML = todoElementBody;
             todosContainer.appendChild(todoElement);
 
+            const todoText = todoElement.querySelector('.todo__text');
+            this.insertTodoText(this.text, todoText);
+
+            if (this.addToStorage) {
+                localStorage.setItem(
+                    'todos',
+                    JSON.stringify([
+                        ...JSON.parse(localStorage.getItem('todos') || '[]'),
+                        {
+                            text: this.text,
+                            active: this.active,
+                        },
+                    ])
+                );
+            }
+
             const checkbox = todoElement.querySelector('[data-checkbox]');
             const remove = todoElement.querySelector('[data-remove]');
 
@@ -237,14 +241,72 @@ export default function app() {
             this.reset();
         }
 
+        insertTodoText(text, element) {
+            const charArray = Array.from(text);
+            const textEl = document.createTextNode(text);
+
+            if (charArray.includes('{') && charArray.includes('}')) {
+                const startIndex = charArray.indexOf('{');
+                const endIndex = charArray.indexOf('}');
+                if (startIndex > endIndex) {
+                    element.appendChild(textEl);
+                    return false;
+                }
+                const linkCharArray = charArray.slice(startIndex + 1, endIndex);
+                const textCharArray = Array.from(text.slice(0, startIndex));
+
+                let link = '';
+                let textContent = '';
+                linkCharArray.forEach(char => (link += char));
+                textCharArray.forEach(char => (textContent += char));
+
+                const linkElement = document.createElement('a');
+                linkElement.href = link;
+                linkElement.classList.add('todo__link');
+                linkElement.innerText = 'link';
+                linkElement.target = '_blank';
+
+                const textElement = document.createTextNode(textContent);
+                element.append(textElement, linkElement);
+                this.text = text;
+                return true;
+            } else {
+                element.appendChild(textEl);
+                return false;
+            }
+        }
+
         toggleTodo(e) {
             let todos = getTodos();
             const checkbox = e.target;
             const check = checkbox.nextSibling.nextSibling;
             const todoTextElement =
                 checkbox.parentElement.parentElement.nextSibling.nextSibling;
+
+            const getTextElementContent = () => {
+                if (todoTextElement.querySelector('a') === null) {
+                    return todoTextElement.innerText;
+                }
+
+                const linkElement = todoTextElement.querySelector('a');
+                const linkText = `{${(() => {
+                    let href = linkElement.href;
+                    if (href.endsWith('/')) {
+                        return href.slice(0, -1);
+                    } else {
+                        return href;
+                    }
+                })()}}`;
+
+                console.log(linkText);
+
+                const text = todoTextElement.innerText.slice(0, -4);
+                const mergedText = text + linkText;
+
+                return mergedText;
+            };
             const index = todos.findIndex(
-                x => x.text === todoTextElement.innerText
+                x => x.text === getTextElementContent()
             );
 
             todos[index].active = !todos[index].active;

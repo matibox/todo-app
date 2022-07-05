@@ -37,6 +37,10 @@
         }
     }
 
+    &--dark &__text--completed &__link {
+        color: var(--deselected-text-color-light);
+    }
+
     &__input-container {
         position: relative;
     }
@@ -97,6 +101,14 @@
             text-decoration: line-through;
             color: var(--deselected-text-color-light);
         }
+    }
+
+    &__link {
+        color: var(--accent-color);
+    }
+
+    &__text--completed &__link {
+        color: var(--deselected-text-color-dark);
     }
 
     &__remove {
