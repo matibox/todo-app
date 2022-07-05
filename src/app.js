@@ -1,6 +1,5 @@
 import modeSwitch from './modeSwitch';
 import assets from './assets';
-import checkboxes from './checkboxes';
 
 export default function app() {
     const newTodo = document.querySelector('[data-new-todo]');
@@ -10,6 +9,7 @@ export default function app() {
     const filterAll = document.querySelector('[data-filter-all]');
     const filterActive = document.querySelector('[data-filter-active]');
     const filterCompleted = document.querySelector('[data-filter-completed]');
+    const itemsLeft = document.querySelector('[data-items-left]');
 
     class App {
         constructor() {
@@ -45,6 +45,8 @@ export default function app() {
                     }
                 });
             });
+
+            this.updateCounter();
         }
 
         handleClick() {
@@ -69,6 +71,7 @@ export default function app() {
             const todo = new Todo(text, true);
             this.todos.push(todo);
             todo.appendTodo();
+            this.updateCounter();
         }
 
         clearAllTodos() {
@@ -85,6 +88,7 @@ export default function app() {
 
             todos = todos.filter(todo => !completedTodos.includes(todo));
             localStorage.setItem('todos', JSON.stringify([...todos]) || '[]');
+            app.updateCounter();
         }
 
         setTogglers(activeToggler) {
@@ -154,6 +158,12 @@ export default function app() {
             app.setTogglers(this);
             app.setStatus('completed');
         }
+
+        updateCounter() {
+            let todos = JSON.parse(localStorage.getItem('todos') || []);
+            const activeTodos = todos.filter(todo => todo.active);
+            itemsLeft.innerText = activeTodos.length;
+        }
     }
 
     class Todo {
@@ -165,7 +175,7 @@ export default function app() {
 
         appendTodo() {
             let currentStatus = localStorage.getItem('status');
-            console.log(currentStatus);
+
             if (this.addToStorage) {
                 localStorage.setItem(
                     'todos',
@@ -247,6 +257,7 @@ export default function app() {
                 : '0';
 
             localStorage.setItem('todos', JSON.stringify([...todos]));
+            app.updateCounter();
         }
 
         removeTodo(e) {
@@ -261,13 +272,13 @@ export default function app() {
             todoTextElement.remove();
 
             localStorage.setItem('todos', JSON.stringify([...todos]));
+            app.updateCounter();
         }
 
         reset() {
             newTodo.value = '';
             modeSwitch();
             assets();
-            // checkboxes();
         }
     }
 
