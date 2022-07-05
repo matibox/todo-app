@@ -104,10 +104,15 @@ export default function app() {
             todosContainer.appendChild(todoElement);
 
             const checkbox = todoElement.querySelector('[data-checkbox]');
+            const remove = todoElement.querySelector('[data-remove]');
 
             checkbox.removeEventListener('click', window.checkboxHandler);
             window.checkboxHandler = this.toggleTodo;
             checkbox.addEventListener('click', window.checkboxHandler);
+
+            remove.removeEventListener('click', window.removeHandler);
+            window.removeHandler = this.removeTodo;
+            remove.addEventListener('click', window.removeHandler);
 
             this.reset();
         }
@@ -133,6 +138,20 @@ export default function app() {
             )
                 ? '1'
                 : '0';
+
+            localStorage.setItem('todos', JSON.stringify([...todos]));
+        }
+
+        removeTodo(e) {
+            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            const remove = e.target;
+            const todoTextElement = remove.parentElement;
+            const index = todos.findIndex(
+                x => x.text === todoTextElement.innerText
+            );
+
+            todos.splice(index, 1);
+            todoTextElement.remove();
 
             localStorage.setItem('todos', JSON.stringify([...todos]));
         }
