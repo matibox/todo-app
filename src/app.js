@@ -80,7 +80,7 @@ export default function app() {
         }
 
         clearAllTodos() {
-            let todos = JSON.parse(localStorage.getItem('todos') || []);
+            let todos = getTodos();
             const completedTodos = todos.filter(todo => !todo.active);
 
             const elementTodos = document.querySelectorAll('[data-todo]');
@@ -222,7 +222,33 @@ export default function app() {
                     JSON.stringify([
                         ...JSON.parse(localStorage.getItem('todos') || '[]'),
                         {
-                            text: this.text,
+                            text: `${(() => {
+                                const charArray = Array.from(this.text);
+                                if (
+                                    charArray.includes('{') &&
+                                    charArray.includes('}')
+                                ) {
+                                    const startIndex = charArray.indexOf('{');
+                                    const endIndex = charArray.indexOf('}');
+                                    if (startIndex > endIndex) return this.text;
+                                    if (charArray[endIndex + 1] === undefined)
+                                        return this.text;
+
+                                    const charArrayWithoutEnd = charArray.slice(
+                                        0,
+                                        endIndex + 1
+                                    );
+                                    let text = '';
+                                    charArrayWithoutEnd.forEach(
+                                        char => (text += char)
+                                    );
+
+                                    this.text = text;
+                                    return this.text;
+                                } else {
+                                    return this.text;
+                                }
+                            })()}`,
                             active: this.active,
                         },
                     ])
@@ -261,6 +287,8 @@ export default function app() {
                 let textContent = '';
                 linkCharArray.forEach(char => (link += char));
                 textCharArray.forEach(char => (textContent += char));
+
+                console.log(textContent, link);
 
                 if (urlRegex({ exact: true, strict: true }).test(link)) {
                     const linkElement = document.createElement('a');
@@ -302,17 +330,21 @@ export default function app() {
                     }
                 })()}}`;
 
-                console.log(linkText);
-
                 const text = todoTextElement.innerText.slice(0, -4);
                 const mergedText = text + linkText;
 
+                console.log(mergedText);
                 return mergedText;
             };
 
             const index = todos.findIndex(
                 x => x.text === getTextElementContent()
             );
+
+            todos.forEach(todo => {
+                console.log(todo.text);
+            });
+            console.log(getTextElementContent());
 
             todos[index].active = !todos[index].active;
             this.active = todos[index].active;
@@ -334,8 +366,31 @@ export default function app() {
             let todos = getTodos();
             const remove = e.target;
             const todoTextElement = remove.parentElement;
+
+            const getTextElementContent = () => {
+                if (todoTextElement.querySelector('a') === null) {
+                    return todoTextElement.innerText;
+                }
+
+                const linkElement = todoTextElement.querySelector('a');
+                const linkText = `{${(() => {
+                    const href = linkElement.href;
+                    if (href.endsWith('/')) {
+                        return href.slice(0, -1);
+                    } else {
+                        return href;
+                    }
+                })()}}`;
+
+                const text = todoTextElement.innerText.slice(0, -4);
+                const mergedText = text + linkText;
+
+                console.log(mergedText);
+                return mergedText;
+            };
+
             const index = todos.findIndex(
-                x => x.text === todoTextElement.innerText
+                x => x.text === getTextElementContent()
             );
 
             todos.splice(index, 1);
