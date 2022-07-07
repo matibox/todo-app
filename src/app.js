@@ -1,6 +1,7 @@
 import modeSwitch from './modeSwitch';
 import assets from './assets';
 import Sortable from 'sortablejs';
+import urlRegex from 'url-regex';
 
 export default function app() {
     const newTodo = document.querySelector('[data-new-todo]');
@@ -251,7 +252,7 @@ export default function app() {
                 const endIndex = charArray.indexOf('}');
                 if (startIndex > endIndex) {
                     element.appendChild(textEl);
-                    return false;
+                    return;
                 }
                 const linkCharArray = charArray.slice(startIndex + 1, endIndex);
                 const textCharArray = Array.from(text.slice(0, startIndex));
@@ -261,19 +262,21 @@ export default function app() {
                 linkCharArray.forEach(char => (link += char));
                 textCharArray.forEach(char => (textContent += char));
 
-                const linkElement = document.createElement('a');
-                linkElement.href = link;
-                linkElement.classList.add('todo__link');
-                linkElement.innerText = 'link';
-                linkElement.target = '_blank';
+                if (urlRegex({ exact: true, strict: true }).test(link)) {
+                    const linkElement = document.createElement('a');
+                    linkElement.href = link;
+                    linkElement.classList.add('todo__link');
+                    linkElement.innerText = 'link';
+                    linkElement.target = '_blank';
 
-                const textElement = document.createTextNode(textContent);
-                element.append(textElement, linkElement);
-                this.text = text;
-                return true;
+                    const textElement = document.createTextNode(textContent);
+                    element.append(textElement, linkElement);
+                    this.text = text;
+                } else {
+                    element.appendChild(textEl);
+                }
             } else {
                 element.appendChild(textEl);
-                return false;
             }
         }
 
@@ -291,7 +294,7 @@ export default function app() {
 
                 const linkElement = todoTextElement.querySelector('a');
                 const linkText = `{${(() => {
-                    let href = linkElement.href;
+                    const href = linkElement.href;
                     if (href.endsWith('/')) {
                         return href.slice(0, -1);
                     } else {

@@ -24,6 +24,7 @@
         "webpack-dev-server": "^4.9.1"
     },
     "dependencies": {
-        "sortablejs": "^1.15.0"
+        "sortablejs": "^1.15.0",
+        "url-regex": "^5.0.0"
     }
 }
