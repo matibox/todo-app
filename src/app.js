@@ -1,5 +1,6 @@
 import modeSwitch from './modeSwitch';
 import assets from './assets';
+import Sortable from 'sortablejs';
 
 export default function app() {
     const newTodo = document.querySelector('[data-new-todo]');
@@ -305,6 +306,7 @@ export default function app() {
 
                 return mergedText;
             };
+
             const index = todos.findIndex(
                 x => x.text === getTextElementContent()
             );
@@ -351,4 +353,8 @@ export default function app() {
     window.addEventListener('load', app.load.bind(app));
     addTodo.addEventListener('click', app.handleClick.bind(app));
     window.addEventListener('keyup', app.handleEnterPress.bind(app));
+
+    new Sortable(todosContainer, {
+        animation: 150,
+    });
 }
