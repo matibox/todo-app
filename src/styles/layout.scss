@@ -150,10 +150,6 @@
             background-color: var(--input-color-dark);
             color: var(--deselected-text-color-dark);
         }
-
-        &--desktop {
-            display: none;
-        }
     }
 
     &__status-container--dark &__status {
